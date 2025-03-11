@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
-SRC = main.c
+SRC = main.c output_info.c
 EXE = file_info
 
 all: $(EXE)
