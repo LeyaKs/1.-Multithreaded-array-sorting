@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
-SRC = main.c
+SRC = main.c quicksort.c dialogue.c
 EXE = quicksort
 
 all: $(EXE)
