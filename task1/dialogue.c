@@ -10,7 +10,7 @@ int *input_array(int *len) {
     if (!arr) return NULL;
 
     printf("Enter elements of array:\n");
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; ++i) {
         check = get_int(&arr[i], INT_MIN, INT_MAX);
         if (check != 1) {
             free(arr);
