@@ -1,14 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <time.h>
 
-#define LEN 9
+#define LEN 20
+#define MIN -1000
+#define MAX 1000
 
 void output_array(int *arr, int first, int last) {
     for (int i = first; i <= last; ++i) {
         printf("%d ", arr[i]);
     }
     printf("\n");
+}
+
+int* random_array(int* size) {
+    *size = 1 + rand() % LEN;
+    int *arr = (int *)malloc(*size * sizeof(int));
+    if (!arr) return NULL;
+    for (int i = 0; i < *size; ++i) {
+        arr[i] = MIN + rand() % (MAX - MIN + 1);
+    }
+    return arr;
 }
 
 
@@ -38,21 +51,13 @@ int max_sequence(int *arr, int *last_elem, int size) {
 
 
 int main() {
-
-    int *arr = (int *)malloc(LEN * sizeof(int));
-    if (!arr) return 0;
-    arr[0] = 200;
-    arr[1] = 201;
-    arr[2] = 200;
-    arr[3] = 200;
-    arr[4] = 200;
-    arr[5] = 200;
-    arr[6] = 200;
-    arr[7] = 200;
-    arr[8] = 201;
-
+    srand(time(NULL));
+    int size;
+    int *arr = random_array(&size);
+    if (!arr) return 1;
+    output_array(arr, 0, size - 1);
     int last_elem = 0;
-    int first_elem = max_sequence(arr, &last_elem, LEN);
+    int first_elem = max_sequence(arr, &last_elem, size);
     output_array(arr, first_elem, last_elem);
     free(arr);
 
