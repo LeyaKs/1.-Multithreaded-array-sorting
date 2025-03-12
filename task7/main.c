@@ -6,8 +6,9 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h> 
+#include "file_operations.h"
 
-#define BUFFER_SIZE 256
+
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -39,19 +40,11 @@ int main(int argc, char *argv[]) {
             fclose(input_file);
             exit(1);
         }
-
-        char buffer[BUFFER_SIZE];
-        size_t bytes_read;
         fseek(input_file, 0, SEEK_SET);
-        while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, input_file)) > 0) {
-            fwrite(buffer, 1, bytes_read, child_file);
-        }
-        
+        copy_file(input_file, child_file);
         fclose(input_file);
-        fseek(child_file, 0, SEEK_SET);
-        while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, child_file)) > 0) {
-            fwrite(buffer, 1, bytes_read, stdout);
-        }
+
+        print_file(child_file);
         fclose(child_file);
         exit(0);
     } else {
@@ -62,20 +55,11 @@ int main(int argc, char *argv[]) {
             fclose(input_file);
             return 1;
         }
-
-        char buffer[BUFFER_SIZE];
-        size_t bytes_read;
         fseek(input_file, 0, SEEK_SET);
-        while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, input_file)) > 0) {
-            fwrite(buffer, 1, bytes_read, parent_file);
-        }
+        copy_file(input_file, parent_file);
         fclose(input_file);
-        
         wait(NULL);
-        fseek(parent_file, 0, SEEK_SET);
-        while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, parent_file)) > 0) {
-            fwrite(buffer, 1, bytes_read, stdout);
-        }
+        print_file(parent_file);
         fclose(parent_file);
     }
     return 0;

@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
-SRC = main.c
+SRC = main.c file_operations.c
 EXE = copy_file
 
 all: $(EXE)
