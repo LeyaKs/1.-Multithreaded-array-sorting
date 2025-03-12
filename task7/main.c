@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -19,21 +20,24 @@ int main(int argc, char *argv[]) {
     if (input_file == NULL) {
         printf("Error code: %d\n", errno);
         printf("Error message: %s\n", strerror(errno));
+        return 1;
     }
 
     pid_t pid = fork();
 
     if (pid == -1) {
         fprintf(stderr, "Forking process error \n");
+        fclose(input_file);
         return 1;
     }
 
     if (pid == 0) {
-        FILE *child_file = fopen("child.txt", "wr");
+        FILE *child_file = fopen("child.txt", "w+");
         if (child_file == NULL) {
             printf("Error code in child file: %d\n", errno);
             printf("Error message in child file: %s\n", strerror(errno));
-            return 1;
+            fclose(input_file);
+            exit(1);
         }
 
         char buffer[BUFFER_SIZE];
@@ -42,19 +46,20 @@ int main(int argc, char *argv[]) {
         while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, input_file)) > 0) {
             fwrite(buffer, 1, bytes_read, child_file);
         }
-        fclose(input_file);
         
-        wait(NULL);
+        fclose(input_file);
         fseek(child_file, 0, SEEK_SET);
         while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, child_file)) > 0) {
             fwrite(buffer, 1, bytes_read, stdout);
         }
         fclose(child_file);
+        exit(0);
     } else {
-        FILE *parent_file = fopen("parent.txt", "wr");
+        FILE *parent_file = fopen("parent.txt", "w+");
         if (parent_file == NULL) {
             printf("Error code in parent file: %d\n", errno);
             printf("Error message in parent file: %s\n", strerror(errno));
+            fclose(input_file);
             return 1;
         }
 
