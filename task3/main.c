@@ -1,8 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define BUFFER_SIZE 256
+
+char *trim(char *str) {
+    size_t len = strlen(str);
+    size_t start = 0;
+    size_t end = len -1;
+
+    while (start < len && isspace(str[start])) ++start;
+    while (end >= start && isspace(str[end])) --end;
+
+    str[end+1] = '\0';
+    return str + start;
+}
+
+int compare_strings(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
 
 int main(int argc, char *argv[]) {
     if (argc != 4) {
@@ -23,32 +41,42 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    FILE *fp = fopen(input_file, "r");
-    if (!fp) {
-        fprintf(stderr,"Input file reading error");
+    FILE *input_fp = fopen(input_file, "r");
+    if (!input_fp) {
+        fprintf(stderr,"Input file opening error");
         return 1;
     }
 
     char buffer[BUFFER_SIZE];
-    size_t bytes_read;
-    while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, fp)) > 0) {
-        if (num_lines == lines_capacity) {
-            lines_capacity *= 2;
-            char **temp = (char **)realloc(lines, lines_capacity * sizeof(char *));
-            if (!temp) {
-                fprintf(stderr,"Input file realloc error");
-                for (int i = 0; i < num_lines; i++) {
-                    free(lines[i]);
-                }
-                free(lines);
-                fclose(fp);
-                return 1;
+    
+    while (fgets(buffer, BUFFER_SIZE, input_fp) != NULL) {
+        char *trimmed_line = trim(buffer);
+        if (strlen(trimmed_line) > 0) {
+            if (num_lines == lines_capacity) {
+                lines_capacity *= 2;
+                char **temp = (char **)realloc(lines, lines_capacity * sizeof(char *));
+                lines = temp;
             }
-            lines = temp;
+            lines[num_lines] = strdup(buffer);
+            num_lines++;
+            
         }
-        lines[num_lines] = strdup(buffer);
     }
-    fclose(fp);
+
+    if (strcmp(sort_method, "alphabetical") == 0) {
+        qsort(lines, num_lines, sizeof(char *), compare_strings);
+    } else { 
+        fprintf(stderr, "Unknown sorting method");
+        fclose(input_fp);
+    }
+
+    fclose(input_fp);
+
+
+    for (int i = 0; i < num_lines; ++i) {
+        free(lines[i]);
+    }
+    free(lines);
 
 
     return 0;
