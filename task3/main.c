@@ -70,6 +70,23 @@ int main(int argc, char *argv[]) {
         fclose(input_fp);
     }
 
+
+    FILE *output_fp = fopen(output_file, "w");
+    if (output_fp == NULL) {
+        perror("Output file opening error");
+        for (int i = 0; i < num_lines; ++i) {
+            free(lines[i]);
+        }
+        free(lines);
+        return 1;
+    }
+
+    for (int i = 0; i < num_lines; ++i) {
+        fprintf(output_fp, "%s\n", lines[i]);
+        printf("%s\n", lines[i]);
+    }
+
+    fclose(output_fp);
     fclose(input_fp);
 
 
