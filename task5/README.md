@@ -1,4 +1,4 @@
-# CError handling of system calls in C
+# Error handling of system calls in C
 
 
 ## Task
