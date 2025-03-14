@@ -5,7 +5,7 @@
 
 
 
-int is_correct(const char *value) {
+int is_correct(const char *value) {     //Check argument for --elbrus
     const char *corr_values[] = {"1c+", "2c+", "2c3", "4c", "8c", "16c"};
     int count = sizeof(corr_values)/sizeof(corr_values[0]);
     for (int i = 0; i < count; ++i) {
@@ -44,19 +44,19 @@ int main(int argc, char**argv) {
             case 'e':
                 elbrus_val = optarg;
                 if (!is_correct(elbrus_val)) {
-                    correct_flag = 0;
+                    correct_flag = 0;       //Incorrect argument
                     elbrus_val_correct = 0;
                 }
                 break;
             case '?':
-                // correct_flag = 0;
+                correct_flag = 0;       //Incorrect option
                 // incorrect_opt = argv[optind - 1];
                 break;
             default:
                 break;
         }
     }
-    for (int i = optind; i < argc; ++i) {
+    for (int i = optind; i < argc; ++i) {       //Saving non-options
         non_options[count_non_opt] = argv[i];
         ++count_non_opt;
     }
