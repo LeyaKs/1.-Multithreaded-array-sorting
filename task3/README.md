@@ -20,7 +20,7 @@ make
 ```
 You can also compile manually by writing the following script:
 ```
-gcc -Wall -Wextra -g main.c file_operations string_operations.c -o sorting_strings
+gcc -Wall -Wextra -g main.c file_operations.c string_operations.c -o sorting_strings
 ```
 
 ### Usage
