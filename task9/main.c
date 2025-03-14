@@ -53,12 +53,12 @@ int max_sequence(int *arr, int *last_elem, int size) {
 int main() {
     srand(time(NULL));
     int size;
-    int *arr = random_array(&size);
+    int *arr = random_array(&size);     //Generate random array
     if (!arr) return 1;
-    output_array(arr, 0, size - 1);
+    output_array(arr, 0, size - 1);     //Print array before processing
     int last_elem = 0;
     int first_elem = max_sequence(arr, &last_elem, size);
-    output_array(arr, first_elem, last_elem);
+    output_array(arr, first_elem, last_elem);       //Print array after processing
     free(arr);
 
     return 0;
