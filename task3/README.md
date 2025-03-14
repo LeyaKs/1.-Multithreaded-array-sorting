@@ -10,7 +10,7 @@ output file, sorting method. Sort the input file using the specified method, del
 **file_operations.c** ----  Implements functions for reading and writing to files.  This includes reading lines from the input file and writing the sorted lines to the output file.  Handles file I/O operations.<br>
 **string_operations.c** ---- Contains functions for processing strings, such as removing leading/trailing whitespace (trimming) and comparing strings for sorting.  Handles string manipulation.<br>
 **file_operations.h** ----- The header file for `file_operations.c`. Declares the function prototypes for file operations.<br>
-**string_operations.h** ---- The header file for `string_operations..c`. Declares the function prototypes for string functions<br>
+**string_operations.h** ---- The header file for `string_operations.c`. Declares the function prototypes for string functions<br>
 
 
 ### Compilation
