@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) {
     struct stat file_info;
-    if (argc != 2) {
+    if (argc != 2) {        //Check count of arguments
         fprintf(stderr, "File name reading error \n");
         return 1;
     }
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    output_info(&file_info, argv[1]);
+    output_info(&file_info, argv[1]);       //Print information about file
 
     
 

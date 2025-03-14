@@ -1,18 +1,18 @@
 #include "output_info.h"
 
-void output_info(const struct stat *file_info, const char *filename) {
+void output_info(const struct stat *file_info, const char *filename) {      //Print basic information
     printf("File name: %s\n", filename);
     printf("File size: %lld байт\n", (long long)file_info->st_size);
     printf("Last change: %s", ctime(&file_info->st_mtime));
 
-    output_file_type(file_info);
+    output_file_type(file_info);        //Print other data
     output_owner_name(file_info);
     output_file_permissions(file_info);
 
     
 }
 
-void output_file_type(const struct stat *file_info) {
+void output_file_type(const struct stat *file_info) {       //Print type of file
     printf("File type: ");
 
     if (S_ISREG(file_info->st_mode)) {
@@ -32,7 +32,7 @@ void output_file_type(const struct stat *file_info) {
     }
 }
 
-void output_owner_name(const struct stat *file_info) {
+void output_owner_name(const struct stat *file_info) {      //Print name of owner
     struct passwd *owner = getpwuid(file_info->st_uid);
     if (owner) {
         printf("Owner: %s\n", owner->pw_name);
@@ -41,7 +41,7 @@ void output_owner_name(const struct stat *file_info) {
     }
 }
 
-void output_file_permissions(const struct stat *file_info) {
+void output_file_permissions(const struct stat *file_info) {        //Print permissions
     printf("Permissions: ");
     printf( (S_ISDIR(file_info->st_mode)) ? "d" : (S_ISLNK(file_info->st_mode) ? "l" : "-"));
     printf( (file_info->st_mode & S_IRUSR) ? "r" : "-");
