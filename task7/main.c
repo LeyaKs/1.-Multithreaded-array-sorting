@@ -11,7 +11,7 @@
 
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
+    if (argc != 2) {        //Check count of arguments
         fprintf(stderr, "File name reading error \n");
         return 1;
     }
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    pid_t pid = fork();
+    pid_t pid = fork();     //Create child process
 
     if (pid == -1) {
         fprintf(stderr, "Forking process error \n");
@@ -32,8 +32,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    if (pid == 0) {
-        FILE *child_file = fopen("child.txt", "w+");
+    if (pid == 0) {         //Check if it is child process
+        FILE *child_file = fopen("child.txt", "w+");        //Write into child file
         if (child_file == NULL) {
             printf("Error code in child file: %d\n", errno);
             printf("Error message in child file: %s\n", strerror(errno));
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
         fclose(child_file);
         exit(0);
     } else {
-        FILE *parent_file = fopen("parent.txt", "w+");
+        FILE *parent_file = fopen("parent.txt", "w+");      //Write into parent file
         if (parent_file == NULL) {
             printf("Error code in parent file: %d\n", errno);
             printf("Error message in parent file: %s\n", strerror(errno));

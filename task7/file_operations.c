@@ -2,7 +2,7 @@
 
 #define BUFFER_SIZE 256
 
-void copy_file(FILE *input_file, FILE *output_file) {
+void copy_file(FILE *input_file, FILE *output_file) {       //Copy data from input_file to output_file
     char buffer[BUFFER_SIZE];
     size_t bytes_read;
     fseek(input_file, 0, SEEK_SET);
@@ -12,7 +12,7 @@ void copy_file(FILE *input_file, FILE *output_file) {
     return;
 }
 
-void print_file(FILE *file) {
+void print_file(FILE *file) {       //Print information from file to terminal
     char buffer[BUFFER_SIZE];
     size_t bytes_read;
     fseek(file, 0, SEEK_SET);
