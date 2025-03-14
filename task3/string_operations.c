@@ -12,6 +12,15 @@ char *trim(char *str) {
     return str + start;
 }
 
-int compare_strings(const void *a, const void *b) {
+int compare_alphabetical(const void *a, const void *b) {
     return strcmp(*(const char **)a, *(const char **)b);
+}
+
+int compare_length(const void *a, const void *b) {
+    return strlen(*(const char **)a) - strlen(*(const char **)b);
+}
+
+
+int compare_reverse_alphabetical(const void *a, const void *b) {
+    return strcmp(*(const char **)b, *(const char **)a);
 }
