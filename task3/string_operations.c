@@ -1,6 +1,6 @@
 #include "string_operations.h"
 
-char *trim(char *str) {
+char *trim(char *str) {     //Removing the spaces from the two ends
     size_t len = strlen(str);
     size_t start = 0;
     size_t end = len -1;
@@ -12,6 +12,8 @@ char *trim(char *str) {
     return str + start;
 }
 
+
+//Types of sorting: alphabetical, length, reverse_alphabetical
 int compare_alphabetical(const void *a, const void *b) {
     return strcmp(*(const char **)a, *(const char **)b);
 }
