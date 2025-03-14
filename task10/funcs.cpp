@@ -1,7 +1,7 @@
 #include "funcs.h"
 
 
-bool is_variable(const string& word) {
+bool is_variable(const string& word) {      //Check if word is variable
     if (word == "AND" || word == "OR" || word == "NOT") {
         return false;
     }
@@ -13,7 +13,7 @@ bool is_variable(const string& word) {
     return true;
 }
 
-bool count_expression(const string& expression, const unordered_map<string, bool>& variables) {
+bool count_expression(const string& expression, const unordered_map<string, bool>& variables) {     //Compute logical expression
     std::istringstream iss(expression);
     string word;
     bool result = false;
@@ -21,7 +21,7 @@ bool count_expression(const string& expression, const unordered_map<string, bool
     string last_op;
 
     while (iss >> word) {
-        if (word == "AND" || word == "OR" || word == "NOT") {
+        if (word == "AND" || word == "OR" || word == "NOT") {       //Check if word is operation
             last_op = word;
         } else {
             if (variables.find(word) == variables.end()) {
@@ -49,7 +49,7 @@ bool count_expression(const string& expression, const unordered_map<string, bool
 }
 
 
-bool find_set(const string& expression, const std::vector<string>& variables, unordered_map<string, bool>& assignment, size_t index) {
+bool find_set(const string& expression, const std::vector<string>& variables, unordered_map<string, bool>& assignment, size_t index) {      //Find set of values with result true, return false if it doesn't exist
     if (index == variables.size()) {
         return count_expression(expression, assignment);
     }
