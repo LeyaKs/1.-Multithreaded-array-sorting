@@ -1,5 +1,7 @@
 #include "dialogue.h"
 
+
+//Dialogue for getting array from user
 int *input_array(int *len) {
     int size;
 
@@ -22,6 +24,8 @@ int *input_array(int *len) {
     return arr;
 }
 
+
+//Reading int value from user
 int get_int (int *x, int left, int right) {
     int op=0;
     do {

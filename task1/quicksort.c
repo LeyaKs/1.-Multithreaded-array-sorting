@@ -1,6 +1,6 @@
 # include "quicksort.h"
 
-int cmp(const void *a, const void *b) {
+int cmp(const void *a, const void *b) {     // Compare 2 values
     const int *val1 = (const int *)a;
     const int *val2 = (const int *)b;
     if (*val1 < *val2) {
@@ -12,12 +12,14 @@ int cmp(const void *a, const void *b) {
     }
 }
 
-void swap(int *a, int *b) {
+void swap(int *a, int *b) {     //Swapping 2 values
 	int temp = *a;
 	*a = *b;
     *b = temp;
 }
 
+
+//Finding pivot element in sub-array
 int partition(int *arr, int left, int right, int (*cmp)(const void *v1, const void *v2)) {
 	int pivot_index = left + rand() % (right - left + 1);
     int pivot = arr[pivot_index];
@@ -33,19 +35,21 @@ int partition(int *arr, int left, int right, int (*cmp)(const void *v1, const vo
 	return i + 1;
 }
 
+
+//Sorting method for thread
 void *quick_sort_thread(void *thread_args) {
-    Args *args = (Args*)thread_args;
+    Args *args = (Args*)thread_args;        //Struct with arguments
     int *arr = args->arr;
     int left = args->left;
     int right = args->right;
     int (*cmp)(const void *v1, const void *v2) = args->cmp;
-    if (left < right) {
+    if (left < right) {     //Condition for continuing sorting
         int pivot = partition(arr, left, right, cmp);
 
-        if (left - right >= MIN_THREAD_SIZE) {
+        if (left - right >= MIN_THREAD_SIZE) {      //Start thread for array with sufficient number of elements
             pthread_t thread1, thread2;
 
-            Args *args1 = (Args*)malloc(1 * sizeof(Args));
+            Args *args1 = (Args*)malloc(1 * sizeof(Args));      //Create set of arguments for left half
             if (!args1) return NULL;
             args1->arr = arr;
             args1->cmp = cmp;
@@ -53,7 +57,7 @@ void *quick_sort_thread(void *thread_args) {
             args1->right = pivot - 1;
 
 
-            Args *args2 = (Args*)malloc(1 * sizeof(Args));
+            Args *args2 = (Args*)malloc(1 * sizeof(Args));      //Create set of arguments for right half
             if (!args2) return NULL;
             args2->arr = arr;
             args2->cmp = cmp;
@@ -69,7 +73,7 @@ void *quick_sort_thread(void *thread_args) {
             free(args1);
             free(args2);
 
-        } else {
+        } else {        // Sort small array without threads
             args->right = pivot - 1;
             quick_sort_thread(thread_args);
             args = (Args*)thread_args;
@@ -82,9 +86,10 @@ void *quick_sort_thread(void *thread_args) {
 }
 
 
+//Basic function for starting sorting
 void quick_sort(int *arr, int left, int right, int (*cmp)(const void *v1, const void *v2)) {
     pthread_t thread;
-    Args *args = (Args*)malloc(1 * sizeof(Args));
+    Args *args = (Args*)malloc(1 * sizeof(Args));       //Create set of arguments
     if (!args) return;
     args->arr = arr;
     args->cmp = cmp;
