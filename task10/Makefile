@@ -1,12 +1,12 @@
 CC = g++
 CFLAGS = -Wall -Wextra -g
-SRC = main.cpp
+SRC = main.cpp funcs.cpp
 EXE = logical_expression
 
 all: $(EXE)
 
 $(EXE): $(SRC)
-  $(CC) $(CFLAGS) $(SRC) -o $(EXE)
+	$(CC) $(CFLAGS) $(SRC) -o $(EXE)
 
 clean:
-  rm -f $(EXE)
+	rm -f $(EXE)
